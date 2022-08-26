@@ -1,0 +1,7 @@
+package guru.springramework.sfgpetclinic.services;
+
+import guru.springramework.sfgpetclinic.model.Pet;
+
+import java.util.Set;
+
+public interface PetService extends CrudService<Pet, Long> {}
