@@ -1,6 +1,9 @@
 package guru.springramework.sfgpetclinic.model;
 
-public class Person extends BaseEntity{
+import javax.persistence.MappedSuperclass;
+
+@MappedSuperclass
+public class Person extends BaseEntity {
 
     private String firstName;
     private String lastName;
