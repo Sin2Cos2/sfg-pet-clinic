@@ -1,64 +1,40 @@
 package guru.springramework.sfgpetclinic.model;
 
+import lombok.*;
+import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
+@Setter
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 @Entity
 @Table(name = "pets")
 public class Pet extends BaseEntity {
 
     private String name;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate birthDate;
 
     @ManyToOne
     @JoinColumn(name = "type_id")
     private PetType petType;
     @ManyToOne
-    @JoinColumn(name = "owner_id")
     private Owner owner;
 
     @OneToMany(cascade = CascadeType.ALL,mappedBy = "pet")
-    private Set<Visit> visit = new HashSet<>();
+    @Builder.Default private Set<Visit> visits = new HashSet<>();
 
-    public String getName() {
-        return name;
-    }
+    public Pet addVisit(Visit visit) {
+        this.visits.add(visit);
+        visit.setPet(this);
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Owner getOwner() {
-        return owner;
-    }
-
-    public void setOwner(Owner owner) {
-        this.owner = owner;
-    }
-
-    public PetType getPetType() {
-        return petType;
-    }
-
-    public void setPetType(PetType petType) {
-        this.petType = petType;
-    }
-
-    public LocalDate getBirthDate() {
-        return birthDate;
-    }
-
-    public void setBirthDate(LocalDate birthDate) {
-        this.birthDate = birthDate;
-    }
-
-    public Set<Visit> getVisit() {
-        return visit;
-    }
-
-    public void setVisit(Set<Visit> visit) {
-        this.visit = visit;
+        return this;
     }
 }
